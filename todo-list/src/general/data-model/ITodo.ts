@@ -6,5 +6,4 @@ export interface ITodo {
     content: string;
     createdAt: number | null;
     status: TodoStatus;
-    _isEditing:boolean;
 }

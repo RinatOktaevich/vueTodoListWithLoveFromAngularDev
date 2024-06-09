@@ -5,55 +5,64 @@ import {TodoStatus} from "@/general/data-model/TodoStatus";
 
 let props = defineProps<{ item: ITodo }>();
 
-
-
 let item: Ref<ITodo> =  ref({
   id:'',
   title:'',
   content:'',
   createdAt:null,
-  status:TodoStatus.PENDING,
-  _isEditing: true
+  status:TodoStatus.PENDING
 });
 let itemEditBuffer: ITodo | null = null;
+let isEditing = ref(false);
 // let model = defineModel();
 
 onMounted(() => {
   console.log('On Item mounted', props.item )
   item.value = {... props.item};
+  itemEditBuffer = {... item.value};
+  isEditing.value = item.value.createdAt == null;
   console.log('   local item: ', item.value);
 });
 
 const emit = defineEmits<{
   (e: 'on-save', value: ITodo): void;
+  (e: 'on-cancel', value: ITodo): void;
 }>();
 
 function onSave() {
   emit('on-save', item.value);
-  item.value._isEditing = false;
+  isEditing.value = false;
+  itemEditBuffer = {... item.value};
 }
 
 function onEdit() {
-  itemEditBuffer = props.item;
-  item.value._isEditing = true;
+  itemEditBuffer = {... item.value};
+  isEditing.value = true;
 }
 
-function onCancel() {
+function onReset() {
+  // console.log(itemEditBuffer);
   if(itemEditBuffer) {
     item.value = itemEditBuffer;
   }
-  item.value._isEditing = false;
+  // item.value._isEditing = false;
+}
+
+function onCancel(){
+  onReset();
+  isEditing.value = false;
+  emit('on-cancel', item.value);
 }
 
 </script>
 
 <template>
-  <div v-if="!item._isEditing">
+  <div v-if="!isEditing">
     <p>{{ item.title }}</p>
     <p>{{ item.content }}</p>
   </div>
 
-  <div v-if="item?._isEditing">
+  <div v-if="isEditing">
     <div>
       <input type="text" v-model="item.title">
     </div>
@@ -62,10 +71,11 @@ function onCancel() {
     </div>
   </div>
 
-  <button class="edit-btn" v-if="!item?._isEditing" @click="onEdit">Edit</button>
-  <button class="cancel-btn" v-if="item?._isEditing" @click="onCancel">Cancel</button>
-  <button class="save-btn" v-if="item?._isEditing" @click="onSave">Save</button>
+  <button class="edit-btn" v-if="!isEditing" @click="onEdit">Edit</button>
+  <button class="cancel-btn" v-if="isEditing" @click="onReset">Reset</button>
+  <button class="cancel-btn" v-if="isEditing" @click="onCancel">Cancel</button>
 
+  <button class="save-btn" v-if="isEditing" @click="onSave">Save</button>
 
 </template>
 

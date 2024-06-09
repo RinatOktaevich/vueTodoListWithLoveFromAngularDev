@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import {onMounted} from "vue";
+import {onMounted, ref, type Ref} from "vue";
 import type {ITodo} from "@/general/data-model/ITodo";
 import TodoItem from "@/general/widgets/TodoItem.vue";
 
@@ -11,6 +11,17 @@ onMounted(() => {
 })
 
 
+function onCancel(todo:ITodo) {
+  console.log('TodoList onCancel: ',todo )
+  if(todo.createdAt == null) {
+    //delete
+  }
+}
+
+function onSave(event:any){
+  console.log('TodoList onSave: ',event )
+}
+
 </script>
 
 
@@ -19,7 +30,10 @@ onMounted(() => {
     <p>Container</p>
 
     <div v-for="item in props.items">
-      <TodoItem :item="item" :key="item.id"></TodoItem>
+      <TodoItem :item="item" :key="item.id"
+                @on-cancel="onCancel"
+                @on-save="onSave">
+      </TodoItem>
     </div>
 
   </div>

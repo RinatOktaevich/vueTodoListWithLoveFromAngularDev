@@ -20,8 +20,7 @@ function onAddItem(){
     title:'',
     content:'',
     createdAt:null,
-    status:TodoStatus.PENDING,
-    _isEditing: true
+    status:TodoStatus.PENDING
   })
   console.log('items ', items.value);
 }
