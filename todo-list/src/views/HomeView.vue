@@ -1,35 +1,43 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
-import type {ITodo} from "@/general/data-model/ITodo";
-import {TodoStatus} from "@/general/data-model/TodoStatus";
 import TodoList from "@/general/widgets/TodoList.vue";
+import TodoItemEdit from "@/general/widgets/TodoItemEdit.vue";
+import {todoListStore} from "@/general/services/storage.service";
 
+const todoStore = todoListStore();
 
 onMounted(() => {
   console.log('Mounted');
+  todoStore.getStorage();
+
 })
 
-const items = ref<ITodo[]>([]);
+// const items = ref<ITodo[]>([]);
+let showAddItem = ref(false);
 
 function onAddItem(){
-  console.log('OnAdd Item')
 
-  items.value.push({
-    id:Date.now().toString(),
-    title:'',
-    content:'',
-    createdAt:null,
-    status:TodoStatus.PENDING
-  })
-  console.log('items ', items.value);
+  console.log('OnAdd Item')
+  showAddItem.value = true;
+
 }
+
+function onEditingSubmit(form:{  title: string, content: string}) {
+  console.log('HomeView onEditingSubmit :', form);
+  todoStore.addItem(form);
+  showAddItem.value = false;
+}
+
 </script>
 
 <template>
   <main>
     <h1>Todo List</h1>
-    <TodoList :items="items"></TodoList>
+    <TodoList></TodoList>
+    <TodoItemEdit v-if="showAddItem"
+        @submit="onEditingSubmit">
+    </TodoItemEdit>
 
     <button @click="onAddItem" class="add-btn">
       Add

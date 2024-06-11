@@ -1,81 +1,78 @@
 <script setup lang="ts">
 import type {ITodo} from "@/general/data-model/ITodo";
-import {onMounted, type Ref, ref} from "vue";
-import {TodoStatus} from "@/general/data-model/TodoStatus";
+import {onMounted, ref} from "vue";
 
-let props = defineProps<{ item: ITodo }>();
-
-let item: Ref<ITodo> =  ref({
-  id:'',
-  title:'',
-  content:'',
-  createdAt:null,
-  status:TodoStatus.PENDING
-});
-let itemEditBuffer: ITodo | null = null;
-let isEditing = ref(false);
-// let model = defineModel();
-
-onMounted(() => {
-  console.log('On Item mounted', props.item )
-  item.value = {... props.item};
-  itemEditBuffer = {... item.value};
-  isEditing.value = item.value.createdAt == null;
-  console.log('   local item: ', item.value);
-});
-
-const emit = defineEmits<{
-  (e: 'on-save', value: ITodo): void;
-  (e: 'on-cancel', value: ITodo): void;
-}>();
-
-function onSave() {
-  emit('on-save', item.value);
-  isEditing.value = false;
-  itemEditBuffer = {... item.value};
+export interface ItemProps {
+  item: ITodo //this is like @Input
 }
 
+const props = defineProps<ItemProps>();
+
+// let item: Ref<ITodo> =  ref({
+//   id:'',
+//   title:'',
+//   content:'',
+//   createdAt:null,
+//   status:TodoStatus.PENDING
+// });
+// let itemEditBuffer: ITodo | null = null;
+let isEditing = ref(false);
+// let item= ref();
+
+onMounted(() => {
+  console.log('TodoItem mounted item params: ', props.item);
+  // item = props.item.item;
+  // item.value = {... unref(props.item) };
+
+});
+
+// const emit = defineEmits<{
+//   (e: 'on-save', value: ITodo): void;
+//   (e: 'on-cancel', value: ITodo): void;
+// }>();
+
+// function onSave() {
+//   // emit('on-save', item.value);
+//   isEditing.value = false;
+// }
+
 function onEdit() {
-  itemEditBuffer = {... item.value};
   isEditing.value = true;
 }
 
-function onReset() {
-  // console.log(itemEditBuffer);
-  if(itemEditBuffer) {
-    item.value = itemEditBuffer;
-  }
-  // item.value._isEditing = false;
-}
+// function onReset() {
+//   // if(itemEditBuffer) {
+//   //   item.value = itemEditBuffer;
+//   // }
+// }
 
-function onCancel(){
-  onReset();
-  isEditing.value = false;
-  emit('on-cancel', item.value);
+// function onCancel(){
+//   onReset();
+//   isEditing.value = false;
+//   emit('on-cancel', item.value);
+// }
+
+function onEditingSubmit(form:{  title: string, content: string}) {
+  console.log('onEditingSubmit :', form);
 }
 
 </script>
 
 <template>
-  <div v-if="!isEditing">
-    <p>{{ item.title }}</p>
-    <p>{{ item.content }}</p>
-  </div>
+<!--  <div v-if="!isEditing">-->
+    <p>{{ item?.title }}</p>
+    <p>{{ item?.content }}</p>
+<!--  </div>-->
 
-  <div v-if="isEditing">
-    <div>
-      <input type="text" v-model="item.title">
-    </div>
-    <div>
-      <input type="text" v-model="item.content">
-    </div>
-  </div>
+<!--  <div v-if="isEditing">-->
+<!--    <TodoItemEdit @submit="onEditingSubmit"></TodoItemEdit>-->
+<!--  </div>-->
 
   <button class="edit-btn" v-if="!isEditing" @click="onEdit">Edit</button>
-  <button class="cancel-btn" v-if="isEditing" @click="onReset">Reset</button>
-  <button class="cancel-btn" v-if="isEditing" @click="onCancel">Cancel</button>
+<!--  <button class="cancel-btn" v-if="isEditing" @click="onReset">Reset</button>-->
+<!--  <button class="cancel-btn" v-if="isEditing" @click="onCancel">Cancel</button>-->
 
-  <button class="save-btn" v-if="isEditing" @click="onSave">Save</button>
+<!--  <button class="save-btn" v-if="isEditing" @click="onSave">Save</button>-->
 
 </template>
 
