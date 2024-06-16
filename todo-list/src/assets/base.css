@@ -34,6 +34,8 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+  --dark-theme-svg-icon-color: white;
+  --white-theme-svg-icon-color: black;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -83,4 +85,14 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.svg-icon {
+  fill: var(--dark-theme-svg-icon-color);
+  stroke: var(--dark-theme-svg-icon-color);
+}
+
+.white-theme .svg-icon {
+  fill: var(--white-theme-svg-icon-color);
+  stress: var(--white-theme-svg-icon-color);;
 }

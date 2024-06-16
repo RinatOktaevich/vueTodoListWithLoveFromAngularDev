@@ -5,21 +5,11 @@ import type {ITodo} from "@/general/data-model/ITodo";
 import TodoItem from "@/general/widgets/TodoItem.vue";
 import {todoListStore} from "@/general/services/storage.service";
 
-// const props = defineProps<{ items}>();
-
 const todoList = todoListStore();
 
 onMounted(() => {
   // console.log('Props: ', props);
 })
-
-
-// function onCancel(todo:ITodo) {
-//   console.log('TodoList onCancel: ',todo )
-//   if(todo.createdAt == null) {
-//     //delete
-//   }
-// }
 
 function onSave(event:any){
   console.log('TodoList onSave: ',event )

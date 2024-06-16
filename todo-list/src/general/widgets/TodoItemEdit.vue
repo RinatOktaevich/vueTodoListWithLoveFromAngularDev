@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <form @submit.prevent="sumbitForm">
+  <form @submit.prevent="submitForm">
     <div class="form-group">
 
       <input type="text" v-model="form.title"
@@ -33,6 +33,9 @@
 
 <script setup lang="ts">
 import {onMounted, reactive} from "vue";
+import type {ItemProps} from "@/general/widgets/TodoItem.vue";
+
+const props = defineProps<ItemProps>();
 
 const emit = defineEmits<{
   (e:'submit',
@@ -42,7 +45,14 @@ const emit = defineEmits<{
    } )
 }>();
 
-onMounted(() => { console.log(" Mounted TodoItemEdit ") });
+onMounted(() => {
+  console.log(" Mounted TodoItemEdit ")
+  if (props.item) {
+    form.title = props.item.title;
+    form.content = props.item.content;
+  }
+
+});
 
 let form = reactive({
   title: '',
@@ -56,7 +66,7 @@ const errors = reactive({
 
 const validateField = (field) => { errors[field].required = form[field].trim() === '' };
 
-function sumbitForm() {
+function submitForm() {
   // console.log("Sumbit form: ", form);
   emit('submit', form);
 }

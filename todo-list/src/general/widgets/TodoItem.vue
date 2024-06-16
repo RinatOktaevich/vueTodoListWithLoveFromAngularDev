@@ -1,75 +1,63 @@
 <script setup lang="ts">
 import type {ITodo} from "@/general/data-model/ITodo";
-import {onMounted, ref} from "vue";
+import {onMounted, type Ref, ref} from "vue";
+import {todoListStore} from "@/general/services/storage.service";
+import TodoItemEdit from "@/general/widgets/TodoItemEdit.vue";
+import EditIcon from "@/components/icons/EditIcon.vue";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue";
 
 export interface ItemProps {
   item: ITodo //this is like @Input
 }
 
-const props = defineProps<ItemProps>();
+const todoList = todoListStore();
 
-// let item: Ref<ITodo> =  ref({
-//   id:'',
-//   title:'',
-//   content:'',
-//   createdAt:null,
-//   status:TodoStatus.PENDING
-// });
-// let itemEditBuffer: ITodo | null = null;
+const props = defineProps<ItemProps>();
+let todo:Ref<ITodo> = ref({});
+
 let isEditing = ref(false);
-// let item= ref();
 
 onMounted(() => {
   console.log('TodoItem mounted item params: ', props.item);
-  // item = props.item.item;
-  // item.value = {... unref(props.item) };
-
+  todo.value = props.item;
 });
 
-// const emit = defineEmits<{
-//   (e: 'on-save', value: ITodo): void;
-//   (e: 'on-cancel', value: ITodo): void;
-// }>();
-
-// function onSave() {
-//   // emit('on-save', item.value);
-//   isEditing.value = false;
-// }
 
 function onEdit() {
   isEditing.value = true;
 }
 
-// function onReset() {
-//   // if(itemEditBuffer) {
-//   //   item.value = itemEditBuffer;
-//   // }
-// }
-
-// function onCancel(){
-//   onReset();
-//   isEditing.value = false;
-//   emit('on-cancel', item.value);
-// }
+function onDelete() {
+  todoList.deleteItem(todo);
+}
 
 function onEditingSubmit(form:{  title: string, content: string}) {
   console.log('onEditingSubmit :', form);
+  todo.value = {... todo.value, ... form};
+  todoList.editItem(todo);
+  isEditing.value = false;
 }
 
 </script>
 
 <template>
-<!--  <div v-if="!isEditing">-->
-    <p>{{ item?.title }}</p>
-    <p>{{ item?.content }}</p>
-<!--  </div>-->
+  <div v-if="!isEditing">
+    <p>{{ todo?.title }}</p>
+    <p>{{ todo?.content }}</p>
 
-<!--  <div v-if="isEditing">-->
-<!--    <TodoItemEdit @submit="onEditingSubmit"></TodoItemEdit>-->
-<!--  </div>-->
+    <button class="edit-btn" @click="onEdit"> <EditIcon class="svg-icon edit-icon"></EditIcon></button>
+    <button class="edit-btn" @click="onDelete"> <DeleteIcon class="svg-icon delete-icon"></DeleteIcon></button>
+  </div>
 
-  <button class="edit-btn" v-if="!isEditing" @click="onEdit">Edit</button>
-<!--  <button class="cancel-btn" v-if="isEditing" @click="onReset">Reset</button>-->
+  <div v-if="isEditing">
+    <TodoItemEdit :item="props.item"  @submit="onEditingSubmit"></TodoItemEdit>
+    <button class="edit-btn" @click="() => {  isEditing = false }">Cancel</button>
+  </div>
+
+
+
+
+  <!--  <button class="cancel-btn" v-if="isEditing" @click="onReset">Reset</button>-->
 <!--  <button class="cancel-btn" v-if="isEditing" @click="onCancel">Cancel</button>-->
 
 <!--  <button class="save-btn" v-if="isEditing" @click="onSave">Save</button>-->
@@ -90,4 +78,11 @@ function onEditingSubmit(form:{  title: string, content: string}) {
   float: right;
 
 }*/
+
+.edit-icon, .delete-icon {
+  height: 24px;
+  width: 24px;
+}
+
+
 </style>

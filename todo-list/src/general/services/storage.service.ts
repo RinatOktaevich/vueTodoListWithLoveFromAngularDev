@@ -1,6 +1,7 @@
 import {acceptHMRUpdate, defineStore} from "pinia";
 import type {ITodo} from "@/general/data-model/ITodo";
 import {TodoStatus} from "@/general/data-model/TodoStatus";
+import type {Ref} from "vue";
 
 export interface TodoState {
     list:ITodo[]
@@ -26,7 +27,17 @@ export const todoListStore = defineStore( {
                 status: TodoStatus.PENDING
             }
             this.rawItems.push(_todo);
-            localStorage.setItem(TODO_LOCAL_STORAGE_KEY, JSON.stringify(this.rawItems));
+            this.saveStorage();
+            return _todo;
+        },
+        editItem(todo:Ref<ITodo>) {
+            let indexToEdit = this.rawItems.findIndex((t) => t.id == todo.value.id);
+            if (indexToEdit == -1) {
+                console.log('Todo item not found');
+            }
+            this.rawItems[indexToEdit] = todo.value;
+            this.saveStorage();
+            return todo;
         },
         getValue() {
             let value = localStorage.getItem(TODO_LOCAL_STORAGE_KEY);
@@ -40,8 +51,8 @@ export const todoListStore = defineStore( {
             this.rawItems = value ? JSON.parse(value) as ITodo[] : [];
         },
 
-        setStorage(){
-            localStorage.setItem(TODO_LOCAL_STORAGE_KEY, JSON.stringify(this.list));
+        saveStorage(){
+            localStorage.setItem(TODO_LOCAL_STORAGE_KEY, JSON.stringify(this.rawItems));
         },
 
         getStorageBy<T>(type: { new(): T; }): T | null {
@@ -52,7 +63,12 @@ export const todoListStore = defineStore( {
             return {...new type(), ...{objectValue}};
         },
 
-        removeItem() {
+        deleteItem(deleteItem:Ref<ITodo>) {
+            this.rawItems = this.rawItems.filter((i:ITodo) => i.id != deleteItem.value.id )
+            this.saveStorage();
+        },
+
+        removeList() {
             localStorage.removeItem(TODO_LOCAL_STORAGE_KEY);
         }
     },
