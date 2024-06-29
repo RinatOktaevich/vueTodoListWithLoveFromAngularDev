@@ -4,6 +4,8 @@ import {onMounted, ref} from "vue";
 import TodoList from "@/general/widgets/TodoList.vue";
 import TodoItemEdit from "@/general/widgets/TodoItemEdit.vue";
 import {todoListStore} from "@/general/services/storage.service";
+import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 const todoStore = todoListStore();
 
@@ -36,11 +38,11 @@ function onEditingSubmit(form:{  title: string, content: string}) {
     <h1>Todo List</h1>
     <TodoList></TodoList>
     <TodoItemEdit v-if="showAddItem"
-        @submit="onEditingSubmit">
+        @submit="onEditingSubmit" @cancel="showAddItem=false">
     </TodoItemEdit>
 
     <button @click="onAddItem" class="add-btn">
-      Add
+      <FontAwesomeIcon class="scale-up-on-hover" :icon="faCircleXmark" transform="rotate-45" size="2xl" />
     </button>
   </main>
 

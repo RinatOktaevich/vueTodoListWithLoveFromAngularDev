@@ -5,6 +5,9 @@ import {todoListStore} from "@/general/services/storage.service";
 import TodoItemEdit from "@/general/widgets/TodoItemEdit.vue";
 import EditIcon from "@/components/icons/EditIcon.vue";
 import DeleteIcon from "@/components/icons/DeleteIcon.vue";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {faTrashCan} from "@fortawesome/free-regular-svg-icons/faTrashCan";
+import {faCircleXmark, faEdit} from "@fortawesome/free-regular-svg-icons";
 
 export interface ItemProps {
   item: ITodo //this is like @Input
@@ -45,13 +48,25 @@ function onEditingSubmit(form:{  title: string, content: string}) {
     <p>{{ todo?.title }}</p>
     <p>{{ todo?.content }}</p>
 
-    <button class="edit-btn" @click="onEdit"> <EditIcon class="svg-icon edit-icon"></EditIcon></button>
-    <button class="edit-btn" @click="onDelete"> <DeleteIcon class="svg-icon delete-icon"></DeleteIcon></button>
+    <button class="edit-btn" @click="onEdit" title="Edit">
+      <FontAwesomeIcon :icon="faEdit" class="scale-up-on-hover theme-icon" size="lg"/>
+<!--      <EditIcon class="svg-icon edit-icon"></EditIcon>-->
+    </button>
+    <button class="edit-btn" @click="onDelete" title="Delete">
+      <FontAwesomeIcon :icon="faTrashCan" class="scale-up-on-hover" size="lg"/>
+<!--      <DeleteIcon class="svg-icon delete-icon"></DeleteIcon>-->
+    </button>
   </div>
 
   <div v-if="isEditing">
-    <TodoItemEdit :item="props.item"  @submit="onEditingSubmit"></TodoItemEdit>
-    <button class="edit-btn" @click="() => {  isEditing = false }">Cancel</button>
+    <TodoItemEdit :item="props.item" @submit="onEditingSubmit" @cancel="isEditing = false"></TodoItemEdit>
+
+<!--    <button class="edit-btn" @click="() => {  isEditing = false }"title="Cancel">-->
+<!--      <FontAwesomeIcon :icon="faCircleXmark" class="scale-up-on-hover"/>-->
+<!--    </button>-->
+<!--    <button class="edit-btn" @click="() => {  isEditing = false }">-->
+<!--      <FontAwesomeIcon :icon="faTrashCan" class="scale-up-on-hover"/>-->
+<!--      Cancel</button>-->
   </div>
 
 
@@ -82,6 +97,8 @@ function onEditingSubmit(form:{  title: string, content: string}) {
 .edit-icon, .delete-icon {
   height: 24px;
   width: 24px;
+  //color:white;
+
 }
 
 

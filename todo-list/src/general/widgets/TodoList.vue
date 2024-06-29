@@ -8,7 +8,6 @@ import {todoListStore} from "@/general/services/storage.service";
 const todoList = todoListStore();
 
 onMounted(() => {
-  // console.log('Props: ', props);
 })
 
 function onSave(event:any){
@@ -21,11 +20,6 @@ function onSave(event:any){
 <template>
   <div class="list-container">
 
-<!--    <div v-for="item in props.items.items">-->
-<!--      <TodoItem :item="item" :key="item.id">-->
-<!--      </TodoItem>-->
-<!--    </div>-->
-
     <div v-for="item in todoList.items">
       <TodoItem :item="item" :key="item.id">
       </TodoItem>
@@ -33,9 +27,6 @@ function onSave(event:any){
 
   </div>
 </template>
-
-<!--@on-cancel="onCancel"-->
-<!--@on-save="onSave"-->
 
 <style scoped>
 .list-container {

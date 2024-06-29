@@ -87,12 +87,51 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.svg-icon {
-  fill: var(--dark-theme-svg-icon-color);
-  stroke: var(--dark-theme-svg-icon-color);
+/* Default dark theme styles */
+body {
+  background-color: #121212;
+  color: #ffffff;
 }
 
-.white-theme .svg-icon {
-  fill: var(--white-theme-svg-icon-color);
-  stress: var(--white-theme-svg-icon-color);;
+body .theme-icon svg {
+  color: white; /* Inherit color from body */
+}
+
+body.white-theme .theme-icon svg {
+  color: black; /* Inherit color from body */
+}
+
+/* Light theme styles for white-theme class */
+body.white-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Override dark theme styles for white-theme class */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+  body.white-theme {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  body .theme-icon svg {
+    color: currentColor; /* Inherit color from body */
+  }
+}
+
+
+
+
+
+
+button {
+  background: transparent;
+  border:none;
+  outline: none;
+  color: inherit;
 }
