@@ -18,11 +18,19 @@
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  --vt-c-text-dark-2: rgba(255, 255, 255, 0.85);
+
+  --dark-theme-svg-icon-color: white;
+  --white-theme-svg-icon-color: black;
+
+  --border-radius-round: 0.25rem;
+  --border-radius-1: 4px;
+  --border-radius-2: 6px;
+  --border-radius-3: 8px;
 }
 
 /* semantic color variables for this project */
-:root {
+:root body.white-theme {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -34,12 +42,11 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
-  --dark-theme-svg-icon-color: white;
-  --white-theme-svg-icon-color: black;
+
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root body {
     --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
     --color-background-mute: var(--vt-c-black-mute);
@@ -62,8 +69,8 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  /*color: var(--color-text);*/
+  /*background: var(--color-background);*/
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -89,44 +96,40 @@ body {
 
 /* Default dark theme styles */
 body {
-  background-color: #121212;
-  color: #ffffff;
+  background-color: var(--color-background); /*#121212*/;
+  color: var(--color-text);  /*#ffffff;*/
 }
 
 body .theme-icon svg {
-  color: white; /* Inherit color from body */
+  color: var(--color-text); /*white;*/ /* Inherit color from body */
 }
 
-body.white-theme .theme-icon svg {
-  color: black; /* Inherit color from body */
-}
+/*body.white-theme .theme-icon svg {*/
+/*  color: black; !* Inherit color from body *!*/
+/*}*/
 
 /* Light theme styles for white-theme class */
-body.white-theme {
-  background-color: #ffffff;
-  color: #000000;
-}
+/*body.white-theme {*/
+/*  background-color: #ffffff;*/
+/*  color: #000000;*/
+/*}*/
 
 /* Override dark theme styles for white-theme class */
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #121212;
-    color: #ffffff;
-  }
+/*@media (prefers-color-scheme: dark) {*/
+/*  body {*/
+/*    background-color: #121212;*/
+/*    color: #ffffff;*/
+/*  }*/
 
-  body.white-theme {
-    background-color: #ffffff;
-    color: #000000;
-  }
+/*  body.white-theme {*/
+/*    background-color: #ffffff;*/
+/*    color: #000000;*/
+/*  }*/
 
-  body .theme-icon svg {
-    color: currentColor; /* Inherit color from body */
-  }
-}
-
-
-
-
+/*  body .theme-icon svg {*/
+/*    color: currentColor; !* Inherit color from body *!*/
+/*  }*/
+/*}*/
 
 
 button {

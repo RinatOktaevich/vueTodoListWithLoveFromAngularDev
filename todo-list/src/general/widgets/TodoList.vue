@@ -20,10 +20,10 @@ function onSave(event:any){
 <template>
   <div class="list-container">
 
-    <div v-for="item in todoList.items">
-      <TodoItem :item="item" :key="item.id">
+<!--    <div v-for="item in todoList.items">-->
+      <TodoItem v-for="item in todoList.items" :item="item" :key="item.id">
       </TodoItem>
-    </div>
+<!--    </div>-->
 
   </div>
 </template>
@@ -32,5 +32,8 @@ function onSave(event:any){
 .list-container {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+
+  margin-top: 20px;
 }
 </style>

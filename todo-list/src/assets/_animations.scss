@@ -1,0 +1,21 @@
+
+.scale-up-on-hover {
+    transition:transform 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    transition:-webkit-transform 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    //color: inherit;
+}
+
+.scale-up-on-hover:hover {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+@mixin transition {
+    transition:transform 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    transition:-webkit-transform 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000);
+}
+
+@mixin scale {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}

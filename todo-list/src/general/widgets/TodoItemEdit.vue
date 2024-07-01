@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .is-invalid {
   background: rgba(255, 0, 0, 0.4);
   border: solid 1px #914b4b;

@@ -35,23 +35,57 @@ function onEditingSubmit(form:{  title: string, content: string}) {
 
 <template>
   <main>
-    <h1>Todo List</h1>
+    <header class="page-header">
+      <h1>Todo List</h1>
+
+      <button class="add-btn"
+              @click="onAddItem"
+              title="Add">
+        <FontAwesomeIcon class="scale-up-on-hover" :icon="faCircleXmark" transform="rotate-45" size="xl" />
+      </button>
+    </header>
+
     <TodoList></TodoList>
-    <TodoItemEdit v-if="showAddItem"
+    <TodoItemEdit v-if="showAddItem" class="add-todo-item"
         @submit="onEditingSubmit" @cancel="showAddItem=false">
     </TodoItemEdit>
 
-    <button @click="onAddItem" class="add-btn">
-      <FontAwesomeIcon class="scale-up-on-hover" :icon="faCircleXmark" transform="rotate-45" size="2xl" />
-    </button>
+
+
+<!--    <button class="cancel-btn"-->
+<!--            @click="() => { showAddItem=false }"-->
+<!--            v-if="showAddItem"-->
+<!--            title="Cancel">-->
+<!--      <FontAwesomeIcon :icon="faCircleXmark" class="scale-up-on-hover" size="2xl"/>-->
+<!--    </button>-->
+
   </main>
 
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
+@use '../assets/animations';
+
+.add-todo-item {
+  margin-top: 15px;
+}
+
 .add-btn {
-  float: right;
+  padding: 8px 18px;
+  border: solid 1px var(--color-border);
+  border-radius: var(--border-radius-round);
+  @include animations.transition;
+
+  &:hover .fa-circle-xmark {
+    @include animations.scale;
+  }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+
 }
 
 </style>
